@@ -18,7 +18,7 @@
 
     body {
         margin: 0;
-        color: #111;
+        color: var(--text);
     }
 
     /* ===== NAVBAR ===== */
@@ -40,29 +40,22 @@
         padding: 20px 0;
     }
 
+    /* BRAND: sadece yatay logo (metin yok) */
     .brand {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: .8rem;
-        color: #111;
         text-decoration: none;
     }
-
-        .brand img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 50%;
-            box-shadow: 0 0 0 2px rgba(0,0,0,.05) inset,0 2px 14px rgba(0,0,0,.12);
-        }
-
-        .brand span {
-            font-weight: 800;
-            letter-spacing: .6px;
-            font-size: clamp(1.5rem,1.4vw + 1rem,2rem);
-            line-height: 1;
-            color: #111;
-        }
+    /* DEĞİŞTİ: yuvarlak küçük ikon yerine geniş yatay görsel */
+    .brand-long {
+        height: 80px; /* masaüstü için yükseklik */
+        width: auto;
+        object-fit: contain; /* kırpma olmasın */
+        border-radius: 6px; /* hafif yumuşak köşe */
+        box-shadow: 0 1px 8px rgba(0,0,0,.10);
+        border: 1px solid rgba(0,0,0,.06);
+        background: #fff; /* PNG şeffafsa arkası temiz görünsün */
+    }
 
     .nav-right {
         display: flex;
@@ -202,81 +195,67 @@
             height: auto;
             opacity: .9;
         }
+
     @@media (max-width:575.98px) {
-        .hero-logo img
+        .hero-logo img {
+            max-width: 100px;
+            opacity: .8;
+        }
 
-    {
-        max-width: 100px;
-        opacity: .8;
-    }
-
+        .brand-long {
+            height: 52px;
+        }
+        /* mobilde biraz küçült */
     }
 
     /* KEYFRAMES */
     @@keyframes slideX {
-        0%
+        0% {
+            transform: translateX(0%);
+        }
 
-    {
-        transform: translateX(0%);
+        40% {
+            transform: translateX(0%);
+        }
+
+        50% {
+            transform: translateX(-50%);
+        }
+
+        60% {
+            transform: translateX(-50%);
+        }
+
+        100% {
+            transform: translateX(0%);
+        }
     }
 
-    40% {
-        transform: translateX(0%);
-    }
-
-    50% {
-        transform: translateX(-50%);
-    }
-
-    60% {
-        transform: translateX(-50%);
-    }
-
-    100% {
-        transform: translateX(0%);
-    }
-
-    }
     @@keyframes textShow {
-        0%,39%
+        0%, 39% {
+            opacity: 1;
+            visibility: visible;
+        }
 
-    {
-        opacity: 1;
-        visibility: visible;
+        40%, 79% {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        80%, 100% {
+            opacity: 1;
+            visibility: visible;
+        }
     }
 
-    40%, 79% {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    80%, 100% {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    }
-
-    @@media (max-width:991.98px) {
-        .brand img
-
-    {
-        width: 54px;
-        height: 54px;
-    }
-
-    }
     @@media (max-width:575.98px) {
-        .pill span
+        .pill span {
+            display: none;
+        }
 
-    {
-        display: none;
-    }
-
-    .nav-right {
-        gap: .45rem;
-    }
-
+        .nav-right {
+            gap: .45rem;
+        }
     }
 
     .pill.addr span {
@@ -286,13 +265,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
     @@media (min-width:1200px) {
-        .pill.addr span
-
-    {
-        max-width: 520px;
-    }
-
+        .pill.addr span {
+            max-width: 520px;
+        }
     }
 </style>
 
@@ -302,10 +279,11 @@
 <div class="nav-wrap">
     <div class="container">
         <div class="nav-inner">
-            <a href="#top" class="brand" id="top">
-                <img src="/images/logo.png" alt="Zero G">
-                <span>ZERO G</span>
+            <!-- BRAND: sadece yatay logo (METİN KALDIRILDI) -->
+            <a href="#top" class="brand" id="top" aria-label="Zero tech">
+                <img src="/images/Logo1.jpg" alt="Zero tech" class="brand-long" />
             </a>
+
             <div class="nav-right">
                 <a class="pill" href="tel:+421944464127"><i class="bi bi-telephone"></i><span>+421 944 464 127</span></a>
                 <a class="pill" href="mailto:info@gzeroglobal.com"><i class="bi bi-envelope"></i><span>info@gzeroglobal.com</span></a>
@@ -314,7 +292,7 @@
                     <i class="bi bi-geo-alt"></i><span>Landererova 7743/8, Staré Mesto, 811 09</span>
                 </a>
 
-                <!-- Dil bayrakları (cookie ile değiştirir) -->
+                <!-- Diller -->
                 <div class="langs d-flex align-items-center gap-2">
                     <form asp-controller="Culture" asp-action="SetLanguage" method="post" class="d-inline">
                         <input type="hidden" name="culture" value="en" />
